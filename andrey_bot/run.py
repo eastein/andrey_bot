@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import absolute_import
+from __future__ import print_function
 import optparse
 import random
 import sys
@@ -8,6 +10,7 @@ import time
 import mediorc
 
 from andrey import persist
+from six.moves import range
 
 SAVE_WINDOW = 300.0
 
@@ -182,7 +185,7 @@ if __name__ == '__main__':
         s = MarkovThread(args, filename=options.file,
                          ratio=float(options.ratio), word_replace=word_replace, word_filter=word_filter, read_only=options.read_only, chatty=options.chatty, chain_length=int(options.chain_length))
     except IndexError:
-        print 'Bad parameters. For usage, use markovboy.py -h.'
+        print('Bad parameters. For usage, use markovboy.py -h.')
         sys.exit(1)
 
     s.run()
