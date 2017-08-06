@@ -10,6 +10,7 @@ import time
 import mediorc
 
 from andrey import persist
+import andrey_bot.filtering
 from six.moves import range
 
 SAVE_WINDOW = 300.0
@@ -95,20 +96,11 @@ class MarkovBot(mediorc.IRC):
                     if acceptance_test(r):
                         return r
 
-        def filter_test(r):
-            if r is None:
-                return False
-            do_send = False
-            rlower = r.lower()
-            for word in self.word_filter:
-                if word.lower() in rlower:
-                    do_send = True
-                    break
-            return do_send
+        acceptance_test = andrey_bot.filtering.WordFilter(self.word_filter).acceptance_test
 
         if random.random() < probability:
             if self.word_filter:
-                r = generate(txt, attempts=50, acceptance_test=filter_test)
+                r = generate(txt, attempts=50, acceptance_test=acceptance_test)
             else:
                 r = generate(txt)
 
